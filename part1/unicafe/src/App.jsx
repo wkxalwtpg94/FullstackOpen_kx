@@ -12,14 +12,7 @@ const Statistics = (props) => {
   
   return (
   <div>
-    <h1>Statistics</h1>
-    <p>Good {props.good}</p>
-    <p>Neutral {props.neutral}</p>
-    <p>Bad {props.bad}</p>
-    <p>Total feedback {props.total}</p>
-    <p>Average feeback {props.average}</p>
-    <p>Percentage of positive feedback {props.percentPositive}%</p>
-
+  <h1>Statistics</h1>
     <table>
       <tbody>
       <tr>
