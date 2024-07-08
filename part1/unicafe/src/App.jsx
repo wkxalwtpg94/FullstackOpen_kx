@@ -19,10 +19,38 @@ const Statistics = (props) => {
     <p>Total feedback {props.total}</p>
     <p>Average feeback {props.average}</p>
     <p>Percentage of positive feedback {props.percentPositive}%</p>
- 
-  </div>
 
+    <table>
+      <tbody>
+      <tr>
+        <td>Good</td>
+        <td>{props.good}</td>
+      </tr>
+      <tr>
+        <td>Neutral</td>
+        <td>{props.neutral}</td>
+      </tr>
+      <tr>
+        <td>Bad</td>
+        <td>{props.bad}</td>
+      </tr>
+      <tr>
+        <td>Total Feedback</td>
+        <td>{props.total}</td>
+      </tr>
+      <tr>
+        <td>Average Feedback</td>
+        <td>{props.average}</td>
+      </tr>
+      <tr>
+        <td>Percentage Positive Feedback</td>
+        <td>{props.percentPositive}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
   )
+    
 }
 }
 
