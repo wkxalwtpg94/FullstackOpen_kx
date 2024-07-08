@@ -13,22 +13,37 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [points, setAll] = useState(new Uint32Array(8))
 
 
-
-// Define event handler function
+// Define nextAnecdote event handler function
 const nextAnecdote = () => {
   let randomNumber = Math.floor((Math.random() * 8));
   console.log(randomNumber)
   setSelected(randomNumber)
 }
 
+// Define Vote event handler function
+const votePoints = () => {
+  console.log(points)
+  console.log(selected)
+  
+  const copy = [...points]
+  copy[selected] += 1
+  setAll(copy)
+  
+}
+
   return (
     <div>
       {anecdotes[selected]}
 
-      
-      <p><button onClick={nextAnecdote}>Next Anecdote</button></p>
+      <p>Current Votes: {points[selected]}</p>
+      <p>
+        <button onClick={votePoints}>Vote</button>
+        <button onClick={nextAnecdote}>Next Anecdote</button>
+        
+        </p>
     </div>
     
   )
