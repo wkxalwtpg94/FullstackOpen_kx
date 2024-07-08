@@ -1,6 +1,15 @@
 import { useState } from 'react'
 
 const Statistics = (props) => {
+  if (props.good==0 && props.neutral==0 && props.bad==0) {
+    return (
+      <div>
+      <p></p>
+      <p>No feedback given</p>
+      </div>
+    )
+  } else {
+  
   return (
   <div>
     <h1>Statistics</h1>
@@ -15,7 +24,7 @@ const Statistics = (props) => {
 
   )
 }
-
+}
 
 const App = () => {
   // save clicks of each button to its own state
