@@ -19,31 +19,46 @@ const App = () => {
 // Define nextAnecdote event handler function
 const nextAnecdote = () => {
   let randomNumber = Math.floor((Math.random() * 8));
-  console.log(randomNumber)
   setSelected(randomNumber)
 }
 
 // Define Vote event handler function
 const votePoints = () => {
-  console.log(points)
-  console.log(selected)
   
   const copy = [...points]
   copy[selected] += 1
   setAll(copy)
   
+  
 }
+
+// Find anecdote with max votes
+let max = points[0];
+let maximumIndex = 0;
+let topAnecdote;
+for (let index = 1; index < points.length; index++) {
+  if (points[index] > max) {
+    max = points[index]
+    maximumIndex = index
+  }
+}
+  
+
+
 
   return (
     <div>
+      <h1>Anecdote of the Day</h1>
       {anecdotes[selected]}
 
-      <p>Current Votes: {points[selected]}</p>
+      <p>Current Votes: {points[selected]} votes</p>
       <p>
         <button onClick={votePoints}>Vote</button>
         <button onClick={nextAnecdote}>Next Anecdote</button>
-        
-        </p>
+      </p>
+      <h1>Anecdote with Most Votes</h1>
+      {anecdotes[maximumIndex]}
+      <p>Current Votes: {points[maximumIndex]} votes</p>
     </div>
     
   )
