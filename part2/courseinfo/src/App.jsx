@@ -21,7 +21,10 @@ const Content = ({ parts }) =>
   </>
 
 const Course = (props) => {
-  let total = props.course.parts[0].exercises+props.course.parts[1].exercises+props.course.parts[2].exercises
+  
+  let exerciseArray = [props.course.parts[0].exercises,props.course.parts[1].exercises, props.course.parts[2].exercises ]
+  console.log(exerciseArray)
+  let total = exerciseArray.reduce(((previousValue, currentValue) => previousValue + currentValue),0)
   return (
   <div>
     <Header course = {props.course.name}></Header>
