@@ -1,5 +1,40 @@
 import { useState } from 'react'
 
+const PersonForm = (props) => {
+  return (
+    <div>
+      <form onSubmit={props.addName}>
+        <div>
+          name: <input value = {props.newName} onChange={props.handleNameChange}/>
+        </div>
+        <div>
+        number: <input value = {props.newNumber} onChange = {props.handleNumberChange}/>
+        </div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+    </div>
+  )
+}
+
+const Filter = (props) => {
+  return (
+    <div>
+      Filter names with: <input value ={props.newFilter} onChange={props.handleFilterChange}></input>
+    </div>
+  )
+}
+
+const Persons = (props) => {
+  return (
+    <div>
+      {props.personsToShow.map((person) => <p key={person.name}>{person.name} {person.number} </p>)}
+    </div>
+  )
+}
+
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: "040-1234567"},
@@ -53,7 +88,7 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
- // handle Filtern onChange
+ // handle Filter onChange
   
 
   const handleFilterChange = (event) => {
@@ -72,23 +107,11 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <div>Filter names with: <input value ={newFilter} onChange={handleFilterChange}></input></div>
+      <Filter newFilter = {newFilter} handleFilterChange = {handleFilterChange}></Filter>
       <h2>Add New Contact</h2>
-      <form onSubmit={addName}>
-        <div>
-          name: <input value = {newName} onChange={handleNameChange}/>
-        </div>
-        <div>
-        number: <input value = {newNumber} onChange = {handleNumberChange}/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm addName = {addName} newName = {newName} handleNameChange = {handleNameChange} newNumber = {newNumber} handleNumberChange = {handleNumberChange}></PersonForm>
       <h2>Numbers</h2>
-        <div>
-          {personsToShow.map((person) => <p key={person.name}>{person.name} {person.number} </p>)}
-        </div>
+        <Persons personsToShow = {personsToShow} ></Persons>
     </div>
   )
 }
