@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+
 
 const PersonForm = (props) => {
   return (
@@ -36,15 +38,24 @@ const Persons = (props) => {
 
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: "040-1234567"},
-    { name: 'Dan Abramov', number: '12-43-234345'},
-    { name: 'Mary Poppendieck', number: '39-23-6423122'}
-  ]) 
+  const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('a new name...')
   const [newNumber, setNewNumber] = useState("012-XX40523")
   const [newFilter, setNewFilter] = useState("")
 
+  useEffect(() => {
+    console.log("effect")
+    axios
+      .get("http://localhost:3001/persons")
+      .then(response => {
+        console.log("promise fulfilled")
+        setPersons(response.data)
+      })
+  }, [])
+  
+  console.log("render", persons.length, "persons")
+  
+  
   console.log("checking the current list of persons:", persons)
 
 
