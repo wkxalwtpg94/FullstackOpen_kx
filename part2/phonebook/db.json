@@ -24,6 +24,11 @@
       "id": "46aa",
       "name": "Harry Potter",
       "number": "012-3240523"
+    },
+    {
+      "id": "ce16",
+      "name": "Hermione Granger",
+      "number": "0129-393931"
     }
   ]
 }
