@@ -58,7 +58,7 @@ const App = () => {
   
   console.log("checking the current list of persons:", persons)
 
-
+  // Event handler to Add New Names
   const addName = (event) => {
     event.preventDefault()
     console.log("button clicked, where did it come from?", event.target)
@@ -81,11 +81,14 @@ const App = () => {
     if (exists === true) {
       alert(`${nameObject.name} already exists in the phonebook!`)
     } else {
-      setPersons(persons.concat(nameObject))
+      axios
+        .post("http://localhost:3001/persons", nameObject)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+        })
       setNewName("")
       setNewNumber("")
     }
-
   }
 
   // handle onChange
