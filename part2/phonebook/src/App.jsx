@@ -58,6 +58,26 @@ const Notification = ({message}) => {
   )
 }
 
+const ErrorNotification = ({message}) => {
+  const notificationStyle = {
+    color: "red",
+    background: "lightgrey",
+    fontSize: 20,
+    borderStyle: "solid",
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+    borderColor: "red"
+  }
+  if (message === null) {
+    return null
+  }
+  return (
+    <div style={notificationStyle}>
+      {message}
+    </div>
+  )
+}
 
 
 const App = () => {
@@ -66,6 +86,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("012-XX40523")
   const [newFilter, setNewFilter] = useState("")
   const [message, setMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     console.log("effect")
@@ -109,11 +130,16 @@ const App = () => {
       personService
         .update(idToUpdate, nameObject)
         .then(returnedPerson => {
-          setPersons(persons.map(person =>
-            person.id !== idToUpdate ? person : returnedPerson
-          ))
+          let updatedPerson = persons.map(person => person.id !== idToUpdate ? person : returnedPerson)
+          setPersons(updatedPerson)
+          
           setMessage(`Updated ${nameObject.name}'s number`)
           setTimeout(() => {setMessage(null)}, 5000)
+        })
+        .catch(error => {
+          setErrorMessage(`${nameObject.name} was already deleted from the server`)
+          setTimeout(()=>{setErrorMessage(null)}, 5000)
+          setPersons(persons.filter(person => person.id !== idToUpdate))
         })
 
     } else {
@@ -177,6 +203,7 @@ const deleteThisPerson = (id) => {
     <div>
       <h1>Phonebook</h1>
       <Notification message ={message} />
+      <ErrorNotification message = {errorMessage}/>
       <Filter newFilter = {newFilter} handleFilterChange = {handleFilterChange}></Filter>
       <h2>Add New Contact</h2>
       <PersonForm addName = {addName} newName = {newName} handleNameChange = {handleNameChange} newNumber = {newNumber} handleNumberChange = {handleNumberChange}></PersonForm>
