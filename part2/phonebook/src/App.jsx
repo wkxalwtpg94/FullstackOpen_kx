@@ -72,15 +72,26 @@ const App = () => {
 
     // Check if name already exists
     let exists = false;
+    let idToUpdate;
     for (let index = 0; index < persons.length; index++) {
       if (persons[index].name === nameObject.name) {
         exists = true;
+        idToUpdate = persons[index].id
+        console.log(idToUpdate)
         break
       }
     }
 
     if (exists === true) {
-      alert(`${nameObject.name} already exists in the phonebook!`)
+      window.confirm(`${nameObject.name} already exists in the phonebook!, replace old number with new one?`)
+      personService
+        .update(idToUpdate, nameObject)
+        .then(returnedPerson => {
+          setPersons(persons.map(person =>
+            person.id !== idToUpdate ? person : returnedPerson
+          ))
+        })
+
     } else {
       personService
         .create(nameObject)
@@ -126,7 +137,7 @@ const deleteThisPerson = (id) => {
   console.log(`button clicked, it should delete person with ${id} id`)
   const personToDelete = persons.find(person => person.id === id)
   console.log(personToDelete)
-  
+  window.confirm(`Do you really want to delete ${personToDelete.name}?`)
   personService
     .deletePerson(id)
     .then(deletedPerson => {
