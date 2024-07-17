@@ -32,10 +32,11 @@ const Filter = (props) => {
 const Persons = (props) => {
   return (
     <div>
-      {props.personsToShow.map((person) => <p key={person.name}>{person.name} {person.number} </p>)}
+      {props.personsToShow.map((person) => <p key={person.name}>{person.name} {person.number} <button onClick={() => props.deletePerson(person.id)}>delete</button> </p>)}
     </div>
   )
 }
+
 
 
 const App = () => {
@@ -118,6 +119,23 @@ const App = () => {
   }
     console.log(personsToShow)
 
+
+// Delete Person
+//want to try to reference the persons name or id, to delete him, how to get the name?
+const deleteThisPerson = (id) => {
+  console.log(`button clicked, it should delete person with ${id} id`)
+  const personToDelete = persons.find(person => person.id === id)
+  console.log(personToDelete)
+  
+  personService
+    .deletePerson(id)
+    .then(deletedPerson => {
+      setPersons(
+        persons.filter(person => person.id !== id))
+    })
+}
+
+
   return (
     <div>
       <h1>Phonebook</h1>
@@ -125,7 +143,7 @@ const App = () => {
       <h2>Add New Contact</h2>
       <PersonForm addName = {addName} newName = {newName} handleNameChange = {handleNameChange} newNumber = {newNumber} handleNumberChange = {handleNumberChange}></PersonForm>
       <h2>Numbers</h2>
-        <Persons personsToShow = {personsToShow} ></Persons>
+        <Persons personsToShow = {personsToShow} deletePerson= {deleteThisPerson} ></Persons>
     </div>
   )
 }
