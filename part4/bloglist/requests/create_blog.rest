@@ -1,0 +1,11 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "id": "",
+    "title": "Travel Destinations",
+    "author": "KX",
+    "url": "itravel.com",
+    "likes": 102
+}
+
