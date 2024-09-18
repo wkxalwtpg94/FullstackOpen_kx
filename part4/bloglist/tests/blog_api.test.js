@@ -107,7 +107,7 @@ test('if likes property is missing, will default to 0', async() => {
     assert.strictEqual(latestEntry.likes, 0)
 })
 
-test.only('if title or url missing from request, returns code 400', async() => {
+test('if title or url missing from request, returns code 400', async() => {
     const newBlog = {
         author:'Kx',
         url:'interestingblogs.com',
@@ -119,4 +119,21 @@ test.only('if title or url missing from request, returns code 400', async() => {
         .send(newBlog)
         .expect('Content-Type', /application\/json/)
         .expect(400)
+})
+
+
+test.only('delete single blog post if id is valid', async() => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
+
+    await api
+        .delete(`/api/blogs/${blogToDelete.id}`)
+        .expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+
+    assert.strictEqual(blogsAtEnd.length, blogsAtStart.length - 1)
+
+    const contents = blogsAtEnd.map(r => r.title)
+    assert(!contents.includes(blogToDelete.title))
 })
