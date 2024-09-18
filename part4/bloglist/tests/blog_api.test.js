@@ -32,7 +32,7 @@ beforeEach(async () => {
   })
 
 
-test.only('notes are returned as json', async() => {
+test('notes are returned as json', async() => {
     await api
         .get('/api/blogs')
         .expect(200)
@@ -61,7 +61,7 @@ test('unique identifier property is named id'), async() => {
     assert.strictEqual(trueOrFalse, true)
 }
 
-test.only('can create new blog post', async() => {
+test('can create new blog post', async() => {
     const newBlog = {
         title :'Testing of New Valid Blog Post',
         author:'Kx',
@@ -82,4 +82,27 @@ test.only('can create new blog post', async() => {
 
     const blogs = blogsAtEnd.map(b => b.title)
     assert(blogs.includes('Testing of New Valid Blog Post'))
+})
+
+
+test.only('if likes property is missing, will default to 0', async() => {
+    const newBlog = {
+        title :'Testing of New Valid Blog Post',
+        author:'Kx',
+        url:'interestingblogs.com',
+    }
+
+    console.log('Consolelog here:', newBlog)
+
+    await api 
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    const latestEntry = blogsAtEnd[blogsAtEnd.length-1]
+    
+    console.log('Console log here again:', latestEntry)
+    assert.strictEqual(latestEntry.likes, 0)
 })
