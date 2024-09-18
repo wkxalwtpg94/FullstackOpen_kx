@@ -85,7 +85,7 @@ test('can create new blog post', async() => {
 })
 
 
-test.only('if likes property is missing, will default to 0', async() => {
+test('if likes property is missing, will default to 0', async() => {
     const newBlog = {
         title :'Testing of New Valid Blog Post',
         author:'Kx',
@@ -105,4 +105,18 @@ test.only('if likes property is missing, will default to 0', async() => {
     
     console.log('Console log here again:', latestEntry)
     assert.strictEqual(latestEntry.likes, 0)
+})
+
+test.only('if title or url missing from request, returns code 400', async() => {
+    const newBlog = {
+        author:'Kx',
+        url:'interestingblogs.com',
+        likes: 234
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect('Content-Type', /application\/json/)
+        .expect(400)
 })
