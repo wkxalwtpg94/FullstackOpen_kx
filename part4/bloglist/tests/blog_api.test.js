@@ -47,3 +47,15 @@ test.only('correct number of blogs', async() => {
     const blogResponse = await api.get('/api/blogs')
     assert.strictEqual(blogResponse.body.length, 2)
 })
+
+test.only('unique identifier property is named id'), async() => {
+    const blogResponse = await api.get('/api/blogs')
+    idPresence = blogResponse.body.map(r => r.id)
+    let trueOrFalse 
+    if (idPresence) {
+        trueOrFalse = true 
+    } else {
+        trueOrFalse = false
+    }
+    assert.strictEqual(trueOrFalse, true)
+}
