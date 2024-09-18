@@ -4,6 +4,7 @@ const supertest = require('supertest')
 const app = require('../app')
 const assert = require('node:assert')
 const Note = require('../models/blog')
+const helper = require('./test_helper')
 
 const api = supertest(app)
 
@@ -43,12 +44,12 @@ after(async () => {
   })
 
 
-test.only('correct number of blogs', async() => {
+test('correct number of blogs', async() => {
     const blogResponse = await api.get('/api/blogs')
     assert.strictEqual(blogResponse.body.length, 2)
 })
 
-test.only('unique identifier property is named id'), async() => {
+test('unique identifier property is named id'), async() => {
     const blogResponse = await api.get('/api/blogs')
     idPresence = blogResponse.body.map(r => r.id)
     let trueOrFalse 
@@ -59,3 +60,26 @@ test.only('unique identifier property is named id'), async() => {
     }
     assert.strictEqual(trueOrFalse, true)
 }
+
+test.only('can create new blog post', async() => {
+    const newBlog = {
+        title :'Testing of New Valid Blog Post',
+        author:'Kx',
+        url:'interestingblogs.com',
+        likes: 234
+
+    }
+    const blogsAtStart = await helper.blogsInDb()
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    assert.strictEqual(blogsAtEnd.length, blogsAtStart.length + 1)
+
+    const blogs = blogsAtEnd.map(b => b.title)
+    assert(blogs.includes('Testing of New Valid Blog Post'))
+})
