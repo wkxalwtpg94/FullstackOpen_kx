@@ -122,7 +122,7 @@ test('if title or url missing from request, returns code 400', async() => {
 })
 
 
-test.only('delete single blog post if id is valid', async() => {
+test('delete single blog post if id is valid', async() => {
     const blogsAtStart = await helper.blogsInDb()
     const blogToDelete = blogsAtStart[0]
 
@@ -136,4 +136,27 @@ test.only('delete single blog post if id is valid', async() => {
 
     const contents = blogsAtEnd.map(r => r.title)
     assert(!contents.includes(blogToDelete.title))
+})
+
+
+test.only('update info of single blog post if id is valid', async() => {
+    const newBlog = {
+        title :'Updating The Blog Post',
+        author:'machineman',
+        url:'newstyle.com',
+        likes: 430
+    }
+
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToUpdate = blogsAtStart[0]
+    console.log('this is the begginine one', blogToUpdate)
+    await api
+        .put(`/api/blogs/${blogToUpdate.id}`)
+        .expect(200)
+    
+    const blogsAtEnd = await helper.blogsInDb()
+
+    console.log('this is the ending one', blogsAtEnd[0])
+    assert.deepStrictEqual(blogsAtEnd[0], blogToUpdate)
+
 })
