@@ -3,9 +3,11 @@ Content-Type: application/json
 
 {
     "id": "",
-    "title": "Travel Destinations",
+    "title": "thtree thing",
     "author": "KX",
     "url": "itravel.com",
-    "likes": 102
+    "likes": 102,
+    "userId": "66f4c65bb99d0a1bb61523a5"
+
 }
 

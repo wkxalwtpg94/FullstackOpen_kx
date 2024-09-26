@@ -163,7 +163,7 @@ test('update info of single blog post if id is valid', async() => {
 
 })
 
-describe.only('when there is initially one user in db', () => {
+describe('when there is initially one user in db', () => {
     beforeEach(async () => {
       await User.deleteMany({})
   
@@ -195,7 +195,7 @@ describe.only('when there is initially one user in db', () => {
       assert(usernames.includes(newUser.username))
     })
 
-    test.only('creation fails with proper statuscode and message if username already taken', async () => {
+    test('creation fails with proper statuscode and message if username already taken', async () => {
         const usersAtStart = await helper.usersInDb()
     
         const newUser = {
