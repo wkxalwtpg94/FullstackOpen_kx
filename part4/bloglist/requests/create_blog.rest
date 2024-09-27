@@ -1,9 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik5hcnV0byIsImlkIjoiNjZmNGM2NWJiOTlkMGExYmI2MTUyM2E1IiwiaWF0IjoxNzI3NDE2NDE2fQ.BDUFdutjX9Tm8asoav2Df3SIK9dlmhFczWQF80lAvP0
 
 {
     "id": "",
-    "title": "thtree thing",
+    "title": "This might have a token",
     "author": "KX",
     "url": "itravel.com",
     "likes": 102,
