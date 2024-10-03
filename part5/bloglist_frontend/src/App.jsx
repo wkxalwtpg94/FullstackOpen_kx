@@ -3,6 +3,29 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
+// Form to add new blogs
+const BlogForm = (props) => {
+  return (
+    <div>
+      <form onSubmit={props.addBlog}>
+        <div>
+          title: <input value = {props.newTitle} onChange={props.handleTitleChange}/>
+        </div>
+        <div>
+          author: <input value = {props.newAuthor} onChange={props.handleAuthorChange}/>
+        </div>
+        <div>
+          url: <input value = {props.newUrl} onChange = {props.handleUrlChange}/>
+        </div>
+        <div>
+          <button type='submit'>Create</button>
+        </div>
+      </form>
+    </div>
+  )
+}
+
+
 // Notification for Error or Success here
 const Notification = ({message}) => {
   if (message === null) {
@@ -23,6 +46,10 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
   const [user, setUser] = useState(null)
+  const [newTitle, setNewTitle] = useState('a new title...')
+  const [newAuthor, setNewAuthor] = useState('a new author..')
+  const [newUrl, setNewUrl] = useState('type url here...')
+  
   
   // Renders blogs the first time
   useEffect(() => {
@@ -61,10 +88,46 @@ const App = () => {
     }
   }
 
+  // Logout function here
   const handleLogout = () => {
     window.localStorage.clear()
     setUser(null)
   }
+
+  // Event Handler to add new Blogs
+  const addBlog = async (event) => {
+    event.preventDefault()
+    console.log("where did this button click come from", event.target)
+
+    const blogObject = {
+      title: newTitle,
+      author: newAuthor,
+      url: newUrl
+    }
+    let blogAdded = await blogService.create(blogObject)
+    setBlogs(blogs.concat(blogAdded))
+    setNewTitle("")
+    setNewAuthor("")
+    setNewUrl("")
+
+  }
+
+  // Handle Changers
+  const handleTitleChange = (event) => {
+    console.log(event.target.value)
+    setNewTitle(event.target.value)
+  }
+  
+  const handleAuthorChange = (event) => {
+    console.log(event.target.value)
+    setNewAuthor(event.target.value)
+  }
+
+  const handleUrlChange = (event) => {
+    console.log(event.target.value)
+    setNewUrl(event.target.value)
+  }
+
 
   if (user === null) {
     return (
@@ -97,6 +160,10 @@ const App = () => {
           Logout
         </button>
       </div>
+
+      <h2>Create New</h2>
+      <BlogForm addBlog= {addBlog} newTitle = {newTitle} handleTitleChange = {handleTitleChange} newAuthor= {newAuthor} handleAuthorChange= {handleAuthorChange} newUrl = {newUrl} handleUrlChange = {handleUrlChange}></BlogForm>
+
       <br></br>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
