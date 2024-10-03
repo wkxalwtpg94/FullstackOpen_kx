@@ -25,9 +25,30 @@ const BlogForm = (props) => {
   )
 }
 
-
-// Notification for Error or Success here
+// Notification component
 const Notification = ({message}) => {
+  const notificationStyle = {
+    color: "green",
+    background: "lightgrey",
+    fontSize: 20,
+    borderStyle: "solid",
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+    borderColor: "green"
+  }
+  if (message === null) {
+    return null
+  }
+  return (
+    <div style={notificationStyle}>
+      {message}
+    </div>
+  )
+}
+
+// ErrorNotification component
+const ErrorNotification = ({message}) => {
   if (message === null) {
     return null
   }
@@ -49,6 +70,7 @@ const App = () => {
   const [newTitle, setNewTitle] = useState('a new title...')
   const [newAuthor, setNewAuthor] = useState('a new author..')
   const [newUrl, setNewUrl] = useState('type url here...')
+  const [message, setMessage] =  useState(null)
   
   
   // Renders blogs the first time
@@ -106,6 +128,12 @@ const App = () => {
     }
     let blogAdded = await blogService.create(blogObject)
     setBlogs(blogs.concat(blogAdded))
+
+    setMessage(`A new blog: ${blogAdded.title} by ${blogAdded.author} added`)
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
+
     setNewTitle("")
     setNewAuthor("")
     setNewUrl("")
@@ -133,7 +161,7 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
-        <Notification message={errorMessage}/>
+        <ErrorNotification message={errorMessage}/>
         <form onSubmit={handleLogin} method='post'>
           <div>
             username 
@@ -152,7 +180,8 @@ const App = () => {
   return (
     <div>
       <h2>Blogs</h2>
-      <Notification message={errorMessage}/>
+      <Notification message ={message}/>
+      <ErrorNotification message={errorMessage}/>
 
       <div>
         {user.username} logged in 
